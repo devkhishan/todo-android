@@ -1,0 +1,84 @@
+MDScreen:
+    name: "add_todo"
+    description: description
+    title: title
+    MDFloatLayout: 
+        md_bg_color: 1,1,1,1 
+        MDIconButton: 
+            icon: "chevron-left"
+            user_font_size: "40sp"
+            pos_hint:{"center_y": .95}
+            theme_text_color: "Custom" 
+            text_color: 108/255,32/255,189/255,1  
+            on_release: 
+                root.manager.transition.direction = "right"
+                root.manager.current = "main"
+        MDLabel:
+            text: "Add Task" 
+            pos_hint: {"center_x": .6, "center_y":.88}
+            font_name: "CourierPrime-Bold.ttf"
+            font_size: "35sp"
+        MDFloatLayout: 
+            size_hint: .85,.08
+            pos_hint:{"center_x": .5,"center_y":.78}
+            canvas:
+                Color: 
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size 
+                    pos: self.pos 
+                    radius: [25] 
+            TextInput: 
+                id: title 
+                hint_text: "Title"
+                size_hint: 1, None 
+                pos_hint: {"center_x":.5, "center_y":.5}
+                height: self.minimum_height 
+                cursor_color: 108/255,32/255,189/255,1  
+                cursor_width: "2sp"
+                foreground_color: 108/255,32/255,189/255,1  
+                background_color: 0, 0, 0, 0 
+                padding: 15 
+                font_name: "CourierPrime-Regular.ttf"
+                font_size: "18sp"
+        MDFloatLayout: 
+            size_hint: .85,.28
+            pos_hint:{"center_x": .5,"center_y":.57}
+            canvas:
+                Color: 
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size 
+                    pos: self.pos 
+                    radius: [25] 
+            TextInput: 
+                id: description
+                hint_text: "Description"
+                size_hint: 1, None 
+                pos_hint: {"center_x":.5, "center_y":.5}
+                height: 180 
+                cursor_color: 108/255,32/255,189/255,1  
+                cursor_width: "2sp"
+                foreground_color: 108/255,32/255,189/255,1  
+                background_color: 0, 0, 0, 0
+                padding: 15 
+                font_name: "CourierPrime-Regular.ttf"
+                font_size: "18sp"
+        Button: 
+            text: "ADD TASK"
+            size_hint: .45,.08
+            pos_hint: {"center_x":.5, "center_y":.36}
+            background_color: 0,0,0,0
+            font_name: "CourierPrime-Bold.ttf" 
+            font_size: "18sp" 
+            color: 1,1,1,1 
+            on_release:
+                app.add_todo(title.text,description.text)
+            canvas.before:
+                Color: 
+                    rgb: (108/255,32/255,189/255,1  )
+                RoundedRectangle:
+                    size: self.size 
+                    pos: self.pos 
+                    radius: [25] 
+
