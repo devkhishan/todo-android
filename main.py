@@ -10,6 +10,7 @@ from kivymd.uix.behaviors import FakeRectangularElevationBehavior
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivy.metrics import dp
 from kivy.core.window import Window 
+import json
 Window.size = (350,600) 
 
 
@@ -29,6 +30,13 @@ class ToDoApp(MDApp):
         return screen_manager
 
     def on_start(self): 
+        try:
+            with open('tasks_cache.json', 'r') as f:
+                tasks = json.load(f)
+                for task in tasks:
+                    self.add_todo(task['title'], task['description'], from_cache=True)
+        except FileNotFoundError:
+            pass  
         today = date.today() 
         wd = date.weekday(today) 
         days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
@@ -46,7 +54,8 @@ class ToDoApp(MDApp):
             for i in remove:
                 description.text = description.text.replace(i,"")
                 bar.md_bg_color = 108/255,32/255,189/255,1  
-    def add_todo(self,title,description): 
+    def add_todo(self,title,description,from_cache=False): 
+              
         if title != "" and description != "" and len(title) < 21 and len(description) < 61:
             screen_manager.current = "main"
             screen_manager.transition.direction = "right"
@@ -70,6 +79,16 @@ class ToDoApp(MDApp):
             size_hint_x=(Window.width - (dp(10) * 2))/ Window.width, bg_color=(1,170/255,23/255,1),
             font_size="18sp").open()
 
+        if not from_cache:
+            try:
+                with open('tasks_cache.json', 'r') as f:
+                    tasks = json.load(f)
+            except FileNotFoundError:
+                tasks = []
+
+            tasks.append({'title': title, 'description': description})
+            with open('tasks_cache.json', 'w') as f:
+                json.dump(tasks, f) 
 
 
 ToDoApp().run()
